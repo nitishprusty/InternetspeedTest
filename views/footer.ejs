@@ -1,0 +1,83 @@
+<div class="footer">
+   <div class="footer-container">
+       <div class="icon-container">
+           <i class="fa-brands fa-github" id="links-icon"></i>
+           <i class="fa-brands fa-instagram" id="links-icon"></i>
+           <i class="fa-brands fa-wikipedia-w" id="links-icon"></i>
+           <i class="fa-brands fa-facebook" id="links-icon"></i>
+       </div>
+       <div class="copyright" style="color: #6B728E;">
+         <p>CopyRight@All Rights Reserved</p>  
+       </div>
+   </div>
+   
+</div>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+           <script>
+              AOS.init();
+              function showLoader() {
+               document.getElementById('loader').classList.remove('hidden');
+             }
+         
+             function hideLoader() {
+               document.getElementById('loader').classList.add('hidden');
+             }
+             
+             hideLoader();
+
+             function measureDownloadSpeed(url, callback) {
+              showLoader();
+            
+              const startTime = performance.now();
+            
+              setTimeout(() => {
+                fetch(url)
+                  .then(response => {
+                    const endTime = performance.now();
+                    const duration = endTime - startTime;
+                    const fileSize = response.headers.get('content-length');
+                    const downloadSpeed = (fileSize / duration) * 1000; // Convert to bytes per second
+            
+                    let speedUnit, downloadSpeedFormatted;
+            
+                    if (downloadSpeed < 1024 * 1024) {
+                      // Speed is below 1 Mbps, display in Kbps
+                      downloadSpeedFormatted = (downloadSpeed / 1024).toFixed(2);
+                      speedUnit = 'Kbps';
+                    } else {
+                      // Speed is 1 Mbps or above, display in Mbps
+                      downloadSpeedFormatted = (downloadSpeed / (1024 * 1024)).toFixed(2);
+                      speedUnit = 'Mbps';
+                    }
+            
+                    hideLoader();
+                    callback(downloadSpeedFormatted, speedUnit);
+                  })
+                  .catch(error => {
+                    console.error('Error:', error);
+                    hideLoader();
+                    callback(null);
+                  });
+              }, 3000); // Wait for 3 seconds before fetching the result
+            }
+            
+             
+             // Example usage:
+             const fileUrl = 'https://nitishprusty.github.io/download/demo.png';
+         const button = document.getElementById('btn');
+
+         const res = document.getElementById("result");
+         
+         button.addEventListener('click', () => {
+           measureDownloadSpeed(fileUrl, (speed,unit) => {
+             if (speed !== null) {
+               res.innerHTML = speed + " " + unit;
+             } else {
+               res.innerHTML = "Error!"
+             }
+           });
+         });
+           </script>
+
+</body>
+</html>
