@@ -23,14 +23,13 @@
                document.getElementById('loader').classList.add('hidden');
              }
              
-             hideLoader();
-
+            hideLoader();
              function measureDownloadSpeed(url, callback) {
+
               showLoader();
             
               const startTime = performance.now();
             
-              setTimeout(() => {
                 fetch(url)
                   .then(response => {
                     const endTime = performance.now();
@@ -49,8 +48,9 @@
                       downloadSpeedFormatted = (downloadSpeed / (1024 * 1024)).toFixed(2);
                       speedUnit = 'Mbps';
                     }
-            
+
                     hideLoader();
+            
                     callback(downloadSpeedFormatted, speedUnit);
                   })
                   .catch(error => {
@@ -58,8 +58,7 @@
                     hideLoader();
                     callback(null);
                   });
-              }, 3000); // Wait for 3 seconds before fetching the result
-            }
+              } // Wait for 3 seconds before fetching the result
             
              
              // Example usage:
